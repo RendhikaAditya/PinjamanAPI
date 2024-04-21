@@ -96,6 +96,8 @@ class Nasabah extends ResourceController
         $foto_unit_base64 = $this->request->getVar('foto_unit');
         $dana_pinjaman_diajukan = $this->request->getVar('dana_pinjaman_diajukan');
         $lama_ansuran = $this->request->getVar('lama_ansuran');
+        $file_pdf_base64 = $this->request->getVar('berkas');
+
         $tgl_pengajuan = date('Y-m-d');
         $dana_pinjaman_diterima = "0";
         $status_pengajuan = "konfirmasi";
@@ -146,14 +148,18 @@ class Nasabah extends ResourceController
             $decodedImage_ktp = base64_decode($foto_ktp_base64);
             $decodedImage_kk = base64_decode($foto_kk_base64);
             $decodedImage_unit = base64_decode($foto_unit_base64);
+            $decodedFile_pdf = base64_decode($file_pdf_base64);
 
             // Simpan gambar di folder yang telah ditentukan
             $foto_ktp_name = time() . '_ktp.jpg';  // Nama gambar berdasarkan waktu
             $foto_kk_name = time() . '_kk.jpg';  // Nama gambar berdasarkan waktu
             $foto_unit_name = time() . '_unit.jpg';  // Nama gambar berdasarkan waktu
+            $file_pdf_name = time() . '_file.pdf'; // Nama file berdasarkan waktu
+
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_ktp_name, $decodedImage_ktp);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_kk_name, $decodedImage_kk);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_unit_name, $decodedImage_unit);
+            file_put_contents(ROOTPATH . 'public/uploads/' . $file_pdf_name, $decodedFile_pdf);
             
             // Data yang akan disimpan
             $data = [
@@ -162,6 +168,7 @@ class Nasabah extends ResourceController
                 'foto_ktp' => $foto_ktp_name,
                 'foto_kk' => $foto_kk_name,
                 'foto_unit' => $foto_unit_name,
+                'berkas_pinjaman' => $file_pdf_name,
                 'dana_pinjaman_diajukan' => $dana_pinjaman_diajukan,
                 'dana_pinjaman_diterima' => $dana_pinjaman_diterima,
                 'lama_ansuran' => $lama_ansuran,
