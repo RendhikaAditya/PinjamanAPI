@@ -74,6 +74,7 @@ class Nasabah extends ResourceController
         $model = new NasabahModel();
         $data = $model->find($id);
 
+        
         if ($data) {
             $model->delete($id);
             $response = [
@@ -86,7 +87,6 @@ class Nasabah extends ResourceController
             return $this->failNotFound('Data nasabah tidak ditemukan');
         }
     }
-
 
     public function createPengajuan()
     {

@@ -23,6 +23,14 @@ $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('pengguna/(:num)', 'Pengguna::update/$1');
     $routes->delete('pengguna/(:num)', 'Pengguna::delete/$1');
 });
+$routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('bayar', 'BayarController::index');
+    $routes->get('bayar/(:num)', 'BayarController::readByKodePP/$1');
+    $routes->post('bayar/(:num)', 'BayarController::create/$1');
+    $routes->get('bayar/status/(:num)/(:alphanum)', 'BayarController::updateStatus/$1/$2');
+    $routes->put('bayar/(:num)', 'BayarController::update/$1');
+    $routes->delete('bayar/(:num)', 'BayarController::delete/$1');
+});
 
 $routes->group('api', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('pengajuan-peminjaman', 'PengajuanPeminjamanController::create');
