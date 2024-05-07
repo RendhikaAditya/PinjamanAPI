@@ -55,6 +55,9 @@ class BayarController extends BaseController
     
         for ($i = 0; $i < $jml; $i++) {
             $data['bulan_pembayaran'] = $i+1;
+            // Tambahkan tanggal jatuh tempo
+            $data['jatuh_tempo'] = date('Y-m-d', strtotime('+' . $i+1 . ' month'));
+
             // Lakukan insert data
             if (!$model->insert($data)) {
                 $success = false; // Jika satu operasi insert gagal, set flag sukses menjadi false

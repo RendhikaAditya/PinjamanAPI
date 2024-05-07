@@ -8,7 +8,7 @@ class BayarModel extends Model
 {
     protected $table = 'tb_bayar';
     protected $primaryKey = 'id_bayar';
-    protected $allowedFields = ['kode_pp', 'bulan_pembayaran', 'nominal_bayaran', 'status'];
+    protected $allowedFields = ['kode_pp', 'bulan_pembayaran', 'nominal_bayaran', 'jatuh_tempo','status'];
 
     // Fungsi untuk mengupdate status berdasarkan ID pembayaran
     public function updateStatus($id_bayar, $status)

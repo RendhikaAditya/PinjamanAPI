@@ -94,6 +94,8 @@ class Nasabah extends ResourceController
         $foto_ktp_base64 = $this->request->getVar('foto_ktp');
         $foto_kk_base64 = $this->request->getVar('foto_kk');
         $foto_unit_base64 = $this->request->getVar('foto_unit');
+        $foto_stnk_base64 = $this->request->getVar('foto_stnk');
+        $foto_bpkp_base64 = $this->request->getVar('foto_bpkp');
         $dana_pinjaman_diajukan = $this->request->getVar('dana_pinjaman_diajukan');
         $lama_ansuran = $this->request->getVar('lama_ansuran');
         $file_pdf_base64 = $this->request->getVar('berkas');
@@ -108,6 +110,8 @@ class Nasabah extends ResourceController
             'foto_ktp' => 'required',
             'foto_kk' => 'required',
             'foto_unit' => 'required',
+            'foto_stnk' => 'required',
+            'foto_bpkp' => 'required',
             'dana_pinjaman_diajukan' => 'required',
             'lama_ansuran' => 'required'
         ];
@@ -124,6 +128,12 @@ class Nasabah extends ResourceController
             ],
             'foto_unit' => [
                 'required' => 'Foto unit harus diisi.'
+            ],
+            'foto_stnk' => [
+                'required' => 'Foto stnk harus diisi.'
+            ],
+            'foto_bpkp' => [
+                'required' => 'Foto bpkp harus diisi.'
             ],
             'dana_pinjaman_diajukan' => [
                 'required' => 'Dana pinjaman yang diajukan harus diisi.'
@@ -148,17 +158,25 @@ class Nasabah extends ResourceController
             $decodedImage_ktp = base64_decode($foto_ktp_base64);
             $decodedImage_kk = base64_decode($foto_kk_base64);
             $decodedImage_unit = base64_decode($foto_unit_base64);
+            $decodedImage_stnk = base64_decode($foto_stnk_base64);
+            $decodedImage_bpkp = base64_decode($foto_bpkp_base64);
+
             $decodedFile_pdf = base64_decode($file_pdf_base64);
 
             // Simpan gambar di folder yang telah ditentukan
             $foto_ktp_name = time() . '_ktp.jpg';  // Nama gambar berdasarkan waktu
             $foto_kk_name = time() . '_kk.jpg';  // Nama gambar berdasarkan waktu
             $foto_unit_name = time() . '_unit.jpg';  // Nama gambar berdasarkan waktu
+            $foto_stnk_name = time() . '_stnk.jpg';  // Nama gambar berdasarkan waktu
+            $foto_bpkp_name = time() . '_bpkp.jpg';  // Nama gambar berdasarkan waktu
+
             $file_pdf_name = time() . '_file.pdf'; // Nama file berdasarkan waktu
 
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_ktp_name, $decodedImage_ktp);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_kk_name, $decodedImage_kk);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_unit_name, $decodedImage_unit);
+            file_put_contents(ROOTPATH . 'public/uploads/' . $foto_stnk_name, $decodedImage_stnk);
+            file_put_contents(ROOTPATH . 'public/uploads/' . $foto_bpkp_name, $decodedImage_bpkp);
             file_put_contents(ROOTPATH . 'public/uploads/' . $file_pdf_name, $decodedFile_pdf);
             
             // Data yang akan disimpan
@@ -168,6 +186,8 @@ class Nasabah extends ResourceController
                 'foto_ktp' => $foto_ktp_name,
                 'foto_kk' => $foto_kk_name,
                 'foto_unit' => $foto_unit_name,
+                'foto_stnk' => $foto_stnk_name,
+                'foto_bpkp' => $foto_unit_name,
                 'berkas_pinjaman' => $file_pdf_name,
                 'dana_pinjaman_diajukan' => $dana_pinjaman_diajukan,
                 'dana_pinjaman_diterima' => $dana_pinjaman_diterima,
