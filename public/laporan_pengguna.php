@@ -1,68 +1,47 @@
 <?php
-// Mengimpor namespace PhpSpreadsheet
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Border;
+require('fpdf/fpdf.php');
 
-// Memuat autoloader Composer
-require 'vendor/autoload.php';
+// Fungsi untuk membuat tabel dari hasil query SQL
+function createTableFromSQL($sql) {
+    // Lakukan koneksi ke database sesuai kebutuhan Anda
+    $conn = new mysqli("localhost", "root", "", "db_peminjaman");
 
-// Koneksi ke database
-$koneksi = mysqli_connect("localhost", "root", "", "db_peminjaman");
+    // Periksa koneksi
+    if ($conn->connect_error) {
+        die("Koneksi Gagal: " . $conn->connect_error);
+    }
 
-// Periksa koneksi
-if (mysqli_connect_errno()) {
-    echo "Koneksi database gagal: " . mysqli_connect_error();
-    exit();
+    // Eksekusi query SQL
+    $result = $conn->query($sql);
+
+    // Buat objek PDF
+    $pdf = new FPDF('L', 'mm', 'A4');
+    $pdf->AddPage();
+
+    // Judul tabel
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(60, 10, 'Nama Pengguna', 1);
+    $pdf->Cell(60, 10, 'Username', 1);
+    $pdf->Cell(60, 10, 'Level', 1);
+    $pdf->Ln();
+
+    // Isi tabel dari hasil query
+    $pdf->SetFont('Arial', '', 10);
+    while ($row = $result->fetch_assoc()) {
+        $pdf->Cell(60, 10, $row['nama_pengguna'], 1);
+        $pdf->Cell(60, 10, $row['username'], 1);
+        $pdf->Cell(60, 10, $row['level'], 1);
+        $pdf->Ln();
+    }
+
+    // Output file PDF
+    $pdf->Output('example.pdf', 'I');
+
+    // Tutup koneksi
+    $conn->close();
 }
 
-// Query SQL
-$query = "SELECT nama_pengguna, username, level FROM `tb_pengguna`";
-$result = mysqli_query($koneksi, $query);
-
-// Membuat objek Spreadsheet
-$spreadsheet = new Spreadsheet();
-$sheet = $spreadsheet->getActiveSheet();
-$sheet->getStyle('A1:C1')->getFont()->setBold(true);
-
-// Auto-fit width untuk semua kolom
-foreach(range('A','C') as $columnID) {
-    $sheet->getColumnDimension($columnID)->setAutoSize(true);
-}
-
-// Menulis header kolom
-$sheet->setCellValue('A1', 'Nama Pengguna');
-$sheet->setCellValue('B1', 'Username');
-$sheet->setCellValue('C1', 'Level');
-
-// Menulis data dari database
-$row = 2;
-while ($data = mysqli_fetch_array($result)) {
-    $sheet->setCellValue('A' . $row, $data['nama_pengguna']);
-    $sheet->setCellValue('B' . $row, $data['username']);
-    $sheet->setCellValue('C' . $row, $data['level']);
-    $row++;
-}
-
-// Menambahkan border ke seluruh data
-$sheet->getStyle('A1:C'.($row-1))->applyFromArray([
-    'borders' => [
-        'allBorders' => [
-            'borderStyle' => Border::BORDER_THIN,
-            'color' => ['argb' => '000000'],
-        ],
-    ],
-]);
-
-$writer = new Xlsx($spreadsheet);
-
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename=laporan_pengguna.xlsx');
-header('Cache-Control: max-age=0');
-
-// Menyimpan file Excel ke output
-$writer->save('php://output');
-
-// Tutup koneksi database
-mysqli_close($koneksi);
+// Panggil fungsi untuk membuat tabel dari query SQL
+$sql = "SELECT nama_pengguna, username, level FROM `tb_pengguna`";
+createTableFromSQL($sql);
 ?>
