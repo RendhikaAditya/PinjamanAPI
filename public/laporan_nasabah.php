@@ -4,7 +4,7 @@ require('fpdf/fpdf.php');
 // Fungsi untuk membuat tabel dari hasil query SQL
 function createTableFromSQL($sql) {
     // Lakukan koneksi ke database sesuai kebutuhan Anda
-    $conn = new mysqli("localhost", "root", "", "db_peminjaman");
+    $conn = new mysqli("localhost", "root", "", "db_pinjaman");
 
     // Periksa koneksi
     if ($conn->connect_error) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Bulan Mei 2024 pada 10.16
+-- Waktu pembuatan: 14 Jul 2024 pada 11.24
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.0.28
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_peminjaman`
+-- Database: `db_pinjaman`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE `tb_bayar` (
 
 INSERT INTO `tb_bayar` (`id_bayar`, `kode_pp`, `bulan_pembayaran`, `nominal_bayaran`, `jatuh_tempo`, `status`) VALUES
 (73, 14, 1, 'Rp 453.333,00', NULL, 'Bayar'),
-(74, 14, 2, 'Rp 453.333,00', NULL, 'Belum'),
+(74, 14, 2, 'Rp 453.333,00', NULL, 'Bayar'),
 (75, 14, 3, 'Rp 453.333,00', NULL, 'Belum'),
 (76, 14, 4, 'Rp 453.333,00', NULL, 'Belum'),
 (77, 14, 5, 'Rp 453.333,00', NULL, 'Belum'),
@@ -100,7 +100,19 @@ INSERT INTO `tb_bayar` (`id_bayar`, `kode_pp`, `bulan_pembayaran`, `nominal_baya
 (129, 15, 27, 'Rp 396.667,00', '2026-08-07', 'Belum'),
 (130, 15, 28, 'Rp 396.667,00', '2026-09-07', 'Belum'),
 (131, 15, 29, 'Rp 396.667,00', '2026-10-07', 'Belum'),
-(132, 15, 30, 'Rp 396.667,00', '2026-11-07', 'Belum');
+(132, 15, 30, 'Rp 396.667,00', '2026-11-07', 'Belum'),
+(133, 18, 1, 'Rp 708.333,00', '2024-08-14', 'Belum'),
+(134, 18, 2, 'Rp 708.333,00', '2024-09-14', 'Belum'),
+(135, 18, 3, 'Rp 708.333,00', '2024-10-14', 'Belum'),
+(136, 18, 4, 'Rp 708.333,00', '2024-11-14', 'Belum'),
+(137, 18, 5, 'Rp 708.333,00', '2024-12-14', 'Belum'),
+(138, 18, 6, 'Rp 708.333,00', '2025-01-14', 'Belum'),
+(139, 18, 7, 'Rp 708.333,00', '2025-02-14', 'Belum'),
+(140, 18, 8, 'Rp 708.333,00', '2025-03-14', 'Belum'),
+(141, 18, 9, 'Rp 708.333,00', '2025-04-14', 'Belum'),
+(142, 18, 10, 'Rp 708.333,00', '2025-05-14', 'Belum'),
+(143, 18, 11, 'Rp 708.333,00', '2025-06-14', 'Belum'),
+(144, 18, 12, 'Rp 708.333,00', '2025-07-14', 'Belum');
 
 -- --------------------------------------------------------
 
@@ -151,16 +163,32 @@ CREATE TABLE `tb_pengajuan_peminjaman` (
   `dana_pinjaman_diterima` int(11) DEFAULT NULL,
   `lama_ansuran` varchar(50) DEFAULT NULL,
   `status_pengajuan` enum('konfirmasi','Di terima','Di tolak') DEFAULT NULL,
-  `keterangan` varchar(255) DEFAULT NULL
+  `keterangan` varchar(255) DEFAULT NULL,
+  `nama_pasangan` varchar(255) DEFAULT NULL,
+  `nik_pasangan` varchar(20) DEFAULT NULL,
+  `no_hp_pasangan` varchar(15) DEFAULT NULL,
+  `email_pasangan` varchar(255) DEFAULT NULL,
+  `pekerjaan` varchar(100) DEFAULT NULL,
+  `alamat_kantor` varchar(255) DEFAULT NULL,
+  `no_telpon_kantor` varchar(15) DEFAULT NULL,
+  `nama_keluarga` varchar(255) DEFAULT NULL,
+  `hubungan_keluarga` varchar(50) DEFAULT NULL,
+  `alamat_keluarga` varchar(255) DEFAULT NULL,
+  `no_hp_keluarga` varchar(15) DEFAULT NULL,
+  `penghasilan_bersih` int(11) DEFAULT NULL,
+  `penghasilan_pasangan` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tb_pengajuan_peminjaman`
 --
 
-INSERT INTO `tb_pengajuan_peminjaman` (`kode_pp`, `kode_nasabah`, `tgl_pengajuan`, `foto_ktp`, `foto_kk`, `foto_unit`, `foto_stnk`, `foto_bpkp`, `berkas_pinjaman`, `dana_pinjaman_diajukan`, `dana_pinjaman_diterima`, `lama_ansuran`, `status_pengajuan`, `keterangan`) VALUES
-(14, 6, '2024-05-03', '1714736369_ktp.jpg', '1714736369_kk.jpg', '1714736369_unit.jpg', '', '', '1714736369_file.pdf', 10000000, 8000000, '30 Bulan', 'Di terima', 'Pinjaman Di setujui'),
-(15, 6, '2024-05-07', '1715046280_ktp.jpg', '1715046280_kk.jpg', '1715046280_unit.jpg', '1715046280_stnk.jpg', '1715046280_unit.jpg', '1715046280_file.pdf', 7000000, 7000000, '30 Bulan', 'Di terima', 'Pinjaman Di setujui');
+INSERT INTO `tb_pengajuan_peminjaman` (`kode_pp`, `kode_nasabah`, `tgl_pengajuan`, `foto_ktp`, `foto_kk`, `foto_unit`, `foto_stnk`, `foto_bpkp`, `berkas_pinjaman`, `dana_pinjaman_diajukan`, `dana_pinjaman_diterima`, `lama_ansuran`, `status_pengajuan`, `keterangan`, `nama_pasangan`, `nik_pasangan`, `no_hp_pasangan`, `email_pasangan`, `pekerjaan`, `alamat_kantor`, `no_telpon_kantor`, `nama_keluarga`, `hubungan_keluarga`, `alamat_keluarga`, `no_hp_keluarga`, `penghasilan_bersih`, `penghasilan_pasangan`) VALUES
+(14, 6, '2024-05-03', '1714736369_ktp.jpg', '1714736369_kk.jpg', '1714736369_unit.jpg', '', '', '1714736369_file.pdf', 10000000, 8000000, '30 Bulan', 'Di terima', 'Pinjaman Di setujui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 6, '2024-05-07', '1715046280_ktp.jpg', '1715046280_kk.jpg', '1715046280_unit.jpg', '1715046280_stnk.jpg', '1715046280_unit.jpg', '1715046280_file.pdf', 7000000, 0, '30 Bulan', 'Di tolak', 'Dana Tidak ada', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, 1, '2024-07-13', '1720875668_ktp.jpg', '1720875668_kk.jpg', '1720875668_unit.jpg', '1720875668_stnk.jpg', '1720875668_bpkp.jpg', '1720875668_file.pdf', 5000000, 0, ' 12 bulan', 'konfirmasi', 'Sedang Diproses', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 1, '2024-07-13', '1720875778_ktp.jpg', '1720875778_kk.jpg', '1720875778_unit.jpg', '1720875778_stnk.jpg', '1720875778_bpkp.jpg', '1720875778_file.pdf', 5000000, 0, ' 12 bulan', 'konfirmasi', 'Sedang Diproses', ' Nama Pasangan', ' 1234567890123456', ' 081234567890', ' pasangan@example.com', ' Karyawan', ' Jl. Kantor No. 1', ' 021123456', ' Nama Keluarga', ' Saudara', ' Jl. Keluarga No. 2', ' 081234567891', 10000000, 5000000),
+(18, 6, '2024-07-13', '1720877692_ktp.jpg', '1720877692_kk.jpg', '1720877692_unit.jpg', '1720877692_stnk.jpg', '1720877692_bpkp.jpg', '1720877692_file.pdf', 5000000, 5000000, '12 Bulan', 'Di terima', 'Pinjaman Di setujui', 'kurni', '123412341234', '0829382992389', 'kurni@mail.com', 'buruh', 'padang', '12334', 'suryo', 'adek', 'padang', '082188299328', 12000000, 4000000);
 
 -- --------------------------------------------------------
 
@@ -246,19 +274,19 @@ ALTER TABLE `tb_pinjaman`
 -- AUTO_INCREMENT untuk tabel `tb_bayar`
 --
 ALTER TABLE `tb_bayar`
-  MODIFY `id_bayar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id_bayar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_nasabah`
 --
 ALTER TABLE `tb_nasabah`
-  MODIFY `kode_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `kode_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengajuan_peminjaman`
 --
 ALTER TABLE `tb_pengajuan_peminjaman`
-  MODIFY `kode_pp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `kode_pp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengguna`

@@ -90,6 +90,7 @@ class Nasabah extends ResourceController
 
     public function createPengajuan()
     {
+        // Data Pengajuan
         $kode_nasabah = $this->request->getVar('kode_nasabah');
         $foto_ktp_base64 = $this->request->getVar('foto_ktp');
         $foto_kk_base64 = $this->request->getVar('foto_kk');
@@ -99,12 +100,33 @@ class Nasabah extends ResourceController
         $dana_pinjaman_diajukan = $this->request->getVar('dana_pinjaman_diajukan');
         $lama_ansuran = $this->request->getVar('lama_ansuran');
         $file_pdf_base64 = $this->request->getVar('berkas');
-
+    
+        // Data Pasangan
+        $nama_pasangan = $this->request->getVar('nama_pasangan');
+        $nik_pasangan = $this->request->getVar('nik_pasangan');
+        $no_hp_pasangan = $this->request->getVar('no_hp_pasangan');
+        $email_pasangan = $this->request->getVar('email_pasangan');
+    
+        // Data Pekerjaan
+        $pekerjaan = $this->request->getVar('pekerjaan');
+        $alamat_kantor = $this->request->getVar('alamat_kantor');
+        $no_telpon_kantor = $this->request->getVar('no_telpon_kantor');
+    
+        // Data Keluarga
+        $nama_keluarga = $this->request->getVar('nama_keluarga');
+        $hubungan_keluarga = $this->request->getVar('hubungan_keluarga');
+        $alamat_keluarga = $this->request->getVar('alamat_keluarga');
+        $no_hp_keluarga = $this->request->getVar('no_hp_keluarga');
+    
+        // Data Penghasilan
+        $penghasilan_bersih = $this->request->getVar('penghasilan_bersih');
+        $penghasilan_pasangan = $this->request->getVar('penghasilan_pasangan');
+    
         $tgl_pengajuan = date('Y-m-d');
         $dana_pinjaman_diterima = "0";
         $status_pengajuan = "konfirmasi";
         $keterangan = "Sedang Diproses";
-
+    
         $rules = [
             'kode_nasabah' => 'required',
             'foto_ktp' => 'required',
@@ -142,12 +164,11 @@ class Nasabah extends ResourceController
                 'required' => 'Lama angsuran harus diisi.'
             ]
         ];
-
-
+    
         // Jika validasi gagal
         if (!$this->validate($rules, $messages)) {
             $errors = $this->validator->getErrors();
-
+    
             $response = [
                 'sukses' => false,
                 'status' => 400,
@@ -160,18 +181,18 @@ class Nasabah extends ResourceController
             $decodedImage_unit = base64_decode($foto_unit_base64);
             $decodedImage_stnk = base64_decode($foto_stnk_base64);
             $decodedImage_bpkp = base64_decode($foto_bpkp_base64);
-
+    
             $decodedFile_pdf = base64_decode($file_pdf_base64);
-
+    
             // Simpan gambar di folder yang telah ditentukan
             $foto_ktp_name = time() . '_ktp.jpg';  // Nama gambar berdasarkan waktu
             $foto_kk_name = time() . '_kk.jpg';  // Nama gambar berdasarkan waktu
             $foto_unit_name = time() . '_unit.jpg';  // Nama gambar berdasarkan waktu
             $foto_stnk_name = time() . '_stnk.jpg';  // Nama gambar berdasarkan waktu
             $foto_bpkp_name = time() . '_bpkp.jpg';  // Nama gambar berdasarkan waktu
-
+    
             $file_pdf_name = time() . '_file.pdf'; // Nama file berdasarkan waktu
-
+    
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_ktp_name, $decodedImage_ktp);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_kk_name, $decodedImage_kk);
             file_put_contents(ROOTPATH . 'public/uploads/' . $foto_unit_name, $decodedImage_unit);
@@ -187,20 +208,33 @@ class Nasabah extends ResourceController
                 'foto_kk' => $foto_kk_name,
                 'foto_unit' => $foto_unit_name,
                 'foto_stnk' => $foto_stnk_name,
-                'foto_bpkp' => $foto_unit_name,
+                'foto_bpkp' => $foto_bpkp_name,
                 'berkas_pinjaman' => $file_pdf_name,
                 'dana_pinjaman_diajukan' => $dana_pinjaman_diajukan,
                 'dana_pinjaman_diterima' => $dana_pinjaman_diterima,
                 'lama_ansuran' => $lama_ansuran,
                 'status_pengajuan' => $status_pengajuan,
                 'keterangan' => $keterangan,
+                'nama_pasangan' => $nama_pasangan,
+                'nik_pasangan' => $nik_pasangan,
+                'no_hp_pasangan' => $no_hp_pasangan,
+                'email_pasangan' => $email_pasangan,
+                'pekerjaan' => $pekerjaan,
+                'alamat_kantor' => $alamat_kantor,
+                'no_telpon_kantor' => $no_telpon_kantor,
+                'nama_keluarga' => $nama_keluarga,
+                'hubungan_keluarga' => $hubungan_keluarga,
+                'alamat_keluarga' => $alamat_keluarga,
+                'no_hp_keluarga' => $no_hp_keluarga,
+                'penghasilan_bersih' => $penghasilan_bersih,
+                'penghasilan_pasangan' => $penghasilan_pasangan
             ];
             
             // Coba menyimpan data
             $model = new PengajuanPeminjamanModel();
             if ($model->insert($data)) {
                 $insertedId = $model->insertID();
-
+    
                 $response = [
                     'sukses' => true,
                     'status' => 200,
@@ -214,8 +248,9 @@ class Nasabah extends ResourceController
                 ];
             }
         }
-
+    
         return $this->respond($response);
     }
+    
 
 }

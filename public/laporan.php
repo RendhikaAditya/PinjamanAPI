@@ -1,7 +1,7 @@
 <?php
 require('fpdf/fpdf.php');
 function createTableFromSQL($sql) {
-    $conn = new mysqli("localhost", "root", "", "db_peminjaman");
+    $conn = new mysqli("localhost", "root", "", "db_pinjaman");
 
     if ($conn->connect_error) {
         die("Koneksi Gagal: " . $conn->connect_error);
